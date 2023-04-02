@@ -19,7 +19,7 @@ $psr7 = new RoadRunner\Http\PSR7Worker(
 while ($req = $psr7->waitRequest()) {
     try {
         $resp = new \Nyholm\Psr7\Response();
-        $resp->getBody()->write(str_repeat("d", 1024*1024*5));
+        $resp->getBody()->write($req->getMethod());
 
         $psr7->respond($resp);
         unset($resp);

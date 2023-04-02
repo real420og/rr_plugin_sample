@@ -5,9 +5,10 @@ server:
 
 http:
   address: 0.0.0.0:8080
+  middleware: ["custom_plugin"]
 
 custom_plugin:
-  say: "hello community ❤️"
+  say: ""
 
 logs:
   level: debug

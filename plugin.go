@@ -4,6 +4,7 @@ import (
 	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/errors"
 	"go.uber.org/zap"
+	"net/http"
 )
 
 const name = "custom_plugin"
@@ -30,8 +31,27 @@ func (p *Plugin) Init(cfg config.Configurer, log *zap.Logger) error {
 	return nil
 }
 
+func (p *Plugin) Middleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		rd := NewResponseDecorator(w)
+
+		rd.Header().Set("Hello", "World")
+
+		next.ServeHTTP(rd, r)
+
+		p.log.Info(
+			"response info",
+			zap.Int("code", rd.Code()),
+			zap.Binary("body", rd.OriginalBody()),
+			zap.Int("size", rd.Size()),
+		)
+	})
+}
+
 func (p *Plugin) Serve() chan error {
 	errCh := make(chan error, 1)
+
+	p.cfg.InitDefaults()
 
 	p.log.Info(p.cfg.Say)
 

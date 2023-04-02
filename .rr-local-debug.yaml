@@ -1,0 +1,15 @@
+version: '2.7'
+
+server:
+  command: "php php/worker.php"
+
+http:
+  address: 0.0.0.0:8080
+  middleware: ["custom_plugin"]
+
+custom_plugin:
+  say: ""
+
+logs:
+  level: debug
+  mode: development

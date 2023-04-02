@@ -1,19 +1,19 @@
 [velox]
-build_args = ['-trimpath', '-ldflags', '-s -X github.com/roadrunner-server/roadrunner/v2/internal/meta.version=v2.10.5 -X github.com/roadrunner-server/roadrunner/v2/internal/meta.buildTime=10:00:00']
+build_args = ['-trimpath', '-ldflags', '-s -X github.com/roadrunner-server/roadrunner/v2/internal/meta.version=v2.12.3 -X github.com/roadrunner-server/roadrunner/v2/internal/meta.buildTime=10:00:00']
 
 [roadrunner]
-ref = "v2.10.5"
+ref = "v2.12.3"
 
 [github]
-[github.token]
-token = ""
+    [github.token]
+    token = "${GITHUB_TOKEN}"
 
-[github.plugins]
-# ref -> master, commit or tag
-logger = { ref = "master", owner = "roadrunner-server", repository = "logger" }
-server = { ref = "master", owner = "roadrunner-server", repository = "server" }
-http = { ref = "master", owner = "roadrunner-server", repository = "http" }
-my_custom_plugin = { ref = "master", owner = "roadrunner-server", repository = "plugin_sample", replace = "/plugin" }
+    [github.plugins]
+    # ref -> commit or tag (do not use master branch)
+    logger = { ref = "v3.2.0", owner = "roadrunner-server", repository = "logger" }
+    server = { ref = "v3.2.0", owner = "roadrunner-server", repository = "server" }
+    http = { ref = "v3.2.0", owner = "roadrunner-server", repository = "http" }
+    my_custom_plugin = { ref = "master", owner = "roadrunner-server", repository = "plugin_sample", replace = "/plugin" }
 
 [log]
 level = "info"

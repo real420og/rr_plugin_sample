@@ -14,11 +14,12 @@ ARG BUILD_TIME="undefined"
 RUN apt update -y
 RUN apt install wget -y
 
-RUN wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
-RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+RUN wget https://go.dev/dl/go1.19.3.linux-amd64.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.3.linux-amd64.tar.gz
 
 # add go to the PATH
 ENV PATH=$PATH:/usr/local/go/bin
+ENV GITHUB_TOKEN=ghp_UN0000000000000000000000000000000000
 
 RUN mkdir plugin
 RUN mkdir app
@@ -27,13 +28,14 @@ WORKDIR plugin
 
 COPY plugin.go .
 COPY config.go .
+COPY responseDecorator.go .
 COPY go.mod .
 COPY go.sum .
 
 WORKDIR app
 
 COPY velox.toml .
-COPY .rr.yaml .
+COPY .rr-container-debug.yaml .rr.yaml
 COPY php .
 
 ENV CGO_ENABLED=0
